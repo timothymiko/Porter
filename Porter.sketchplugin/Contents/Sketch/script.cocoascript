@@ -1,0 +1,48 @@
+var onRun = function(context) {
+
+  var doc = context.document
+  var page = doc.currentPage()
+
+  var x = 0
+  var y = 0
+  if (page.artboards().count() > 0) {
+    var f = page.artboards()[page.artboards().count()-1].frame()
+    var x = f.x() + f.width() + 100
+    var y = f.y()
+  }
+
+  var openDialog = NSOpenPanel.openPanel()
+  openDialog.setCanChooseDirectories(false)
+  openDialog.setCanChooseFiles(true)
+  openDialog.setCanCreateDirectories(false)
+  openDialog.setAllowsMultipleSelection(true)
+  openDialog.setTitle("Choose your image(s)")
+  openDialog.setPrompt("Choose")
+
+  if (openDialog.runModal() == NSOKButton) {
+    for (var i = 0; i < openDialog.URLs().count(); i++) {
+
+      var url = openDialog.URLs()[i]
+      var image = [[NSImage alloc] initByReferencingFile:url.path()];
+
+      var artboard = MSArtboardGroup.new()
+      artboard.setName(url.lastPathComponent())
+      var frame = artboard.frame()
+      frame.setX(x)
+      frame.setY(y)
+      frame.setWidth(image.size().width)
+      frame.setHeight(image.size().height)
+      doc.currentPage().addLayers([artboard])
+
+      var layer = artboard.addLayerOfType("rectangle");
+      layer.rect = CGRectMake( 0, 0, image.size().width, image.size().height )
+
+      var fill = layer.style().fills().addNewStylePart();
+      fill.setFillType(4);
+      fill.setPatternImage( image );
+      fill.setPatternFillType(1);
+
+      x = x + image.size().width + 100
+    }
+  }
+};

@@ -1,0 +1,24 @@
+{
+  "author" : "Timothy Miko",
+  "commands" : [
+    {
+      "name": "Import Image(s) to Artboard(s)",
+      "identifier": "importimagestoartboards",
+      "shortcut": "cmd shift i",
+      "script": "script.cocoascript",
+      "handler": "onRun"
+    }
+  ],
+  "menu" : {
+    "items" : [
+      "importimagestoartboards"
+    ],
+    "title" : "Porter",
+    "isRoot": true
+  },
+  "identifier" : "com.datonicgroup.sketch.porter",
+  "version" : "0.1",
+  "description" : "Porter allows you to bulk import images into new artboards.",
+  "authorEmail" : "tim@datonicgroup.com",
+  "name" : "Porter"
+}
